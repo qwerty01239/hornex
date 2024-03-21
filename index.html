@@ -1,0 +1,18 @@
+<script>
+//loads hornex in an anonymous tab (wont be visible in history, thus unbannable)
+//open google.com and paste in console
+(async ()=>{
+    //replace with your own proxy link when gets blocked
+    const proxyLink='https://corsproxy.io/?https://hornex.pro';
+    
+    const htmlRes=await fetch(proxyLink);
+    const html=await htmlRes.text();
+
+    const jsPath=/;" src="([^"]+)"/.exec(html)[1];
+    const jsRes=await fetch(proxyLink+'/'+jsPath);
+    const js=await jsRes.text();
+
+    const newHtml=html.replace(';" src="',';" hidden-src="').replace('</body>',`<script>${js}<\/script><\/body>`);
+    document.write(newHtml);
+})();
+</script>
